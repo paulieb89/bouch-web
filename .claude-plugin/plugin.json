@@ -1,0 +1,8 @@
+{
+  "name": "bouch-web",
+  "version": "0.1.0",
+  "description": "Evidence-tiered web design knowledge for visual direction, typography, component and interaction-state coverage, reference-site research, and rendered browser verification with the Bouch Web Workbench.",
+  "author": {"name": "Paul Boucherat"},
+  "license": "MIT",
+  "keywords": ["web", "web-design", "visual-direction", "typography", "accessibility", "interaction-states", "browser-verification", "evidence-tiered"]
+}
