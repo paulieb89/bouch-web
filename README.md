@@ -1,7 +1,7 @@
 # bouch-web
 
 Portable, evidence-tiered web design knowledge for Bouch web work. **Status:
-promoted experimental, v0.1.0.**
+promoted experimental, v0.2.0.**
 
 This package is consumed alongside the [Bouch Web Workbench](https://github.com/paulieb89/bouch-web-workbench).
 It carries design reasoning and a narrow typography Skill; the Workbench remains
@@ -19,6 +19,17 @@ the authoritative rendered-output instrument and release gate.
   self-hosting, fallback detection, rendered proof, and weight budgeting.
 - **`bouch-web-typography` Skill** — a narrow procedure for typeface decisions
   and verification in a real web project.
+- **`creative-production` Skill** — the shared evidence-led workflow for
+  open-ended creative experiments (websites, short videos, visual media):
+  learn from past experiments without inheriting their look, match method to
+  the brief's quality bar, keep taste judgements for human review.
+- **`creative-web-production` Skill** — the web-specific companion: shape
+  distinctive sites and interactive web studies, build working drafts, verify
+  rendered output and accessibility, and review against the chosen direction.
+- **`shortform-video-production` Skill** — the video-specific companion:
+  develop, produce and review short-form video with a distinct creative
+  treatment and evidence-led visual and audio checks. (Held here pending a
+  possible future `bouch-creative` split.)
 
 ## Evidence boundary
 
@@ -40,6 +51,9 @@ bouch-web/
 ├── plugin.json
 ├── .claude-plugin/plugin.json
 ├── skills/bouch-web-typography/SKILL.md
+├── skills/creative-production/SKILL.md
+├── skills/creative-web-production/SKILL.md
+├── skills/shortform-video-production/SKILL.md
 ├── references/                 # evidence-tiered design guidance
 ├── evidence/                   # provenance and qualification boundaries
 ├── scripts/validate-package.sh # offline package checks

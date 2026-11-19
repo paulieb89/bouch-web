@@ -10,7 +10,7 @@ fail() { printf '  ✘ %s\n' "$1"; failures=$((failures + 1)); }
 
 echo '== Required package files =='
 for path in plugin.json .claude-plugin/plugin.json LICENSE README.md \
-  skills/bouch-web-typography/SKILL.md evidence/PROVENANCE.md \
+  skills/bouch-web-typography/SKILL.md skills/creative-production/SKILL.md skills/creative-web-production/SKILL.md skills/shortform-video-production/SKILL.md evidence/PROVENANCE.md \
   evidence/qualification.md references/evidence-status.md \
   scripts/validate-package.sh; do
   if [[ -f "$path" ]]; then pass "$path"; else fail "$path missing"; fi
@@ -24,19 +24,20 @@ root = json.loads(Path('plugin.json').read_text())
 claude = json.loads(Path('.claude-plugin/plugin.json').read_text())
 fields = ('name', 'version', 'description', 'author', 'license', 'keywords')
 assert all(root.get(field) == claude.get(field) for field in fields), 'manifest identity differs'
-assert root['name'] == 'bouch-web' and root['version'] == '0.1.0'
+assert root['name'] == 'bouch-web' and root['version'] == '0.2.0'
 PY
 then pass 'manifests parse and identity matches'; else fail 'manifest validation'; fi
 
 echo '== Skill frontmatter =='
 if python3 - <<'PY'
 from pathlib import Path
-text = Path('skills/bouch-web-typography/SKILL.md').read_text()
-assert text.startswith('---\n') and '\n---\n' in text
-front, _ = text.split('\n---\n', 1)
-assert '\nname:' in front and '\ndescription:' in front
+for skill in Path('skills').glob('*/SKILL.md'):
+    text = skill.read_text()
+    assert text.startswith('---\n') and '\n---\n' in text, skill
+    front, _ = text.split('\n---\n', 1)
+    assert '\nname:' in front and '\ndescription:' in front, skill
 PY
-then pass 'Skill has name and description'; else fail 'Skill frontmatter'; fi
+then pass 'Skills have name and description'; else fail 'Skill frontmatter'; fi
 
 echo '== Relative links and reference reachability =='
 if python3 - <<'PY'
@@ -50,8 +51,9 @@ for path in markdown:
             continue
         if not (path.parent / target).resolve().exists():
             bad.append(f'{path} -> {target}')
-skill = Path('skills/bouch-web-typography/SKILL.md').read_text()
+skill = ''.join(p.read_text() for p in Path('skills').glob('*/SKILL.md'))
 reachable = {Path(target).name for target in re.findall(r'\]\((\.\./\.\./references/[^)#\s]+)', skill)}
+reachable |= {Path(target).name for target in re.findall(r'see (\.\./\.\./references/[^)\s]+)', skill)}
 references = {p.name for p in Path('references').glob('*.md')}
 bad.extend(f'references/{name} is not linked by the Skill' for name in sorted(references - reachable))
 if bad:
